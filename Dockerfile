@@ -1,14 +1,11 @@
-FROM debian:sid-slim
+FROM bitnami/minideb
+
+RUN sed -i -e "s/deb.debian/ftp.hk.debian/g" /etc/apt/sources.list
 
 WORKDIR /opt/src
 
-RUN apt-get -y update \
-    && DEBIAN_FRONTEND=noninteractive \
-       apt-get -y --no-install-recommends install \
-         dnsutils openssl ca-certificates kmod \
-         iproute2 gawk grep sed net-tools iptables \
-         bsdmainutils libcurl3-nss \
-	 xl2tpd strongswan rsyslog ppp libpcap0.8
+RUN install_packages iptables net-tools kmod \
+	 xl2tpd strongswan
 
 COPY ./run.sh /opt/src/run.sh
 

@@ -194,6 +194,4 @@ route add default dev ppp0
 #Add statically dns from ppp due to docker issue
 #TODO Need to find a better way to make it work
 cat /etc/ppp/resolv.conf > /etc/resolv.conf
-echo 'done.'
-#/bin/bash
-tail -f /dev/null
+/bin/bash
