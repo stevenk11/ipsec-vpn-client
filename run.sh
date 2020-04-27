@@ -166,19 +166,15 @@ EOF
 mkdir -p /var/run/xl2tpd
 touch /var/run/xl2tpd/l2tp-control
 
-service rsyslog restart
-
 #Restart services:
 service ipsec restart
 service xl2tpd restart
+service rsyslog restart
 
-sleep 3
+sleep 10
 
 #Start the IPsec connection:
-service ipsec restart
 ipsec up myvpn
-
-sleep 3
 
 #Start the L2TP connection:
 echo "c myvpn" > /var/run/xl2tpd/l2tp-control
@@ -187,6 +183,7 @@ echo "c myvpn" > /var/run/xl2tpd/l2tp-control
 GW="$(ip route | grep default | grep -oE "\b([0-9]{1,3}\.){3}[0-9]{1,3}\b")"
 route add $LOCAL_IP gw $GW
 route add $PUBLIC_IP gw $GW
+
 #Wait necessary time for ppp0 to be created
 sleep 10
 route add default dev ppp0
